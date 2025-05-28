@@ -12,10 +12,10 @@ struct ContentView: View {
     
     @State var searchText  = ""
     @State var alphabetical = false
-    @State var currenSelection = APType.all
+    @State var currentSelection = APType.all
     
     var filteredDinos: [ApexPredator] {
-        predators.filter(by: currenSelection)
+        predators.filter(by: currentSelection)
         
         predators.sort(by: alphabetical)
         
@@ -27,9 +27,7 @@ struct ContentView: View {
             NavigationStack {
             List(filteredDinos){ predator in
                 NavigationLink {
-                    Image(predator.image)
-                        .resizable()
-                        .scaledToFit()
+                    PredatorDetail(predator: predator)
                 } label: {
                     HStack {
                         // Dinosaur Image
@@ -74,7 +72,7 @@ struct ContentView: View {
                 
                 ToolbarItem(placement: .topBarTrailing){
                     Menu {
-                        Picker("Filter", selection: $currenSelection){
+                        Picker("Filter", selection: $currentSelection.animation()){
                             ForEach(APType.allCases){ type in
                                 Label(type.rawValue.capitalized, systemImage: type.icon)
                             }
